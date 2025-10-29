@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">
+                <i class="fas fa-rocket"></i>
+                My Portal
+            </h1>
+            <div class="header-info">
+                <div id="currentTime" class="current-time"></div>
+                <div id="gmailCount" class="gmail-count">
+                    <i class="fas fa-envelope"></i>
+                    <span id="unreadCount">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Weather Widget -->
+                <div class="widget weather-widget">
+                    <div class="widget-header">
+                        <h2><i class="fas fa-cloud-sun"></i> 天気情報</h2>
+                    </div>
+                    <div class="weather-tabs">
+                        <button class="tab-btn active" data-location="shiga">滋賀県</button>
+                        <button class="tab-btn" data-location="osaka">大阪府</button>
+                        <button class="tab-btn" data-location="tokyo">東京都</button>
+                    </div>
+                    <div id="weatherContent" class="weather-content">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Timer/Stopwatch Widget -->
+                <div class="widget timer-widget">
+                    <div class="widget-header">
+                        <h2><i class="fas fa-clock"></i> タイマー</h2>
+                        <div class="timer-switch">
+                            <button id="timerBtn" class="switch-btn active">タイマー</button>
+                            <button id="stopwatchBtn" class="switch-btn">ストップウォッチ</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer Section -->
+                    <div id="timerSection" class="timer-section">
+                        <div class="time-inputs">
+                            <input type="number" id="timerHours" min="0" max="23" value="0" placeholder="00">
+                            <span>:</span>
+                            <input type="number" id="timerMinutes" min="0" max="59" value="5" placeholder="00">
+                            <span>:</span>
+                            <input type="number" id="timerSeconds" min="0" max="59" value="0" placeholder="00">
+                        </div>
+                        <div class="timer-display" id="timerDisplay">00:00:00.0</div>
+                        <div class="timer-controls">
+                            <button id="timerStart" class="control-btn start-btn">
+                                <i class="fas fa-play"></i> スタート
+                            </button>
+                            <button id="timerReset" class="control-btn reset-btn">
+                                <i class="fas fa-redo"></i> リセット
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stopwatch Section -->
+                    <div id="stopwatchSection" class="timer-section" style="display: none;">
+                        <div class="timer-display" id="stopwatchDisplay">00:00:00.0</div>
+                        <div class="timer-controls">
+                            <button id="stopwatchStart" class="control-btn start-btn">
+                                <i class="fas fa-play"></i> スタート
+                            </button>
+                            <button id="stopwatchReset" class="control-btn reset-btn">
+                                <i class="fas fa-redo"></i> リセット
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Column -->
+            <div class="center-column">
+                <!-- Calendar Widget -->
+                <div class="widget calendar-widget">
+                    <div class="widget-header">
+                        <h2><i class="fas fa-calendar-alt"></i> カレンダー</h2>
+                        <div class="calendar-nav">
+                            <button id="prevMonth" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                            <span id="currentMonth" class="current-month"></span>
+                            <button id="nextMonth" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div id="calendarGrid" class="calendar-grid"></div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="widget schedule-widget">
+                    <div class="widget-header">
+                        <h2><i class="fas fa-list-check"></i> 今日の予定</h2>
+                    </div>
+                    <div id="todaySchedule" class="schedule-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Todo Widget -->
+                <div class="widget todo-widget">
+                    <div class="widget-header">
+                        <h2><i class="fas fa-tasks"></i> Todo リスト</h2>
+                        <button id="addTodoBtn" class="add-btn">
+                            <i class="fas fa-plus"></i> 追加
+                        </button>
+                    </div>
+                    <div id="todoList" class="todo-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- Spreadsheet Widget -->
+                <div class="widget spreadsheet-widget">
+                    <div class="widget-header">
+                        <h2><i class="fas fa-table"></i> スプレッドシート</h2>
+                        <button id="addSheetBtn" class="add-btn">
+                            <i class="fas fa-plus"></i> 追加
+                        </button>
+                    </div>
+                    <div class="sheet-tabs" id="sheetTabs"></div>
+                    <div id="sheetContent" class="sheet-content">
+                        <div class="empty-state">
+                            <i class="fas fa-table"></i>
+                            <p>スプレッドシートを追加してください</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Todo Modal -->
+    <div id="todoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-tasks"></i> Todoを追加</h3>
+                <button class="close-btn" id="closeTodoModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>タスク名</label>
+                    <input type="text" id="todoTitle" placeholder="タスク名を入力">
+                </div>
+                <div class="form-group">
+                    <label>グループ</label>
+                    <select id="todoGroup">
+                        <option value="">グループを選択</option>
+                        <option value="__new__">+ 新しいグループを作成</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-calendar calendar-icon"></i> 期日
+                    </label>
+                    <input type="date" id="todoDueDate">
+                </div>
+                <div class="form-group">
+                    <label>実行予定時間</label>
+                    <input type="time" id="todoTime">
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="todoCalendar">
+                        <span>カレンダーに反映</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>メモ</label>
+                    <textarea id="todoNotes" rows="3" placeholder="メモ(任意)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelTodo" class="btn-secondary">キャンセル</button>
+                <button id="saveTodo" class="btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spreadsheet Modal -->
+    <div id="sheetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-table"></i> スプレッドシートを追加</h3>
+                <button class="close-btn" id="closeSheetModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>シート名</label>
+                    <input type="text" id="sheetName" placeholder="例: 家計簿">
+                </div>
+                <div class="form-group">
+                    <label>スプレッドシートURL</label>
+                    <input type="text" id="sheetUrl" placeholder="GoogleスプレッドシートのURLを貼り付け">
+                    <small>フルURLを貼り付けると自動的にIDを抽出します</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelSheet" class="btn-secondary">キャンセル</button>
+                <button id="saveSheet" class="btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google API Setup Modal -->
+    <div id="setupModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> Google API 設定</h3>
+            </div>
+            <div class="modal-body">
+                <p>Google Calendar, Tasks, Gmail APIを使用するには、APIキーとクライアントIDの設定が必要です。</p>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="text" id="apiKey" placeholder="Your Google API Key">
+                </div>
+                <div class="form-group">
+                    <label>Client ID</label>
+                    <input type="text" id="clientId" placeholder="Your Google Client ID">
+                </div>
+                <small>※設定方法は<a href="#" target="_blank">こちら</a>を参照してください</small>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSetup" class="btn-primary">保存して開始</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

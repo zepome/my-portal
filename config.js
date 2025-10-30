@@ -5,8 +5,8 @@
 const CONFIG = {
     // Google API設定
     // 以下を自分のAPIキーとクライアントIDに置き換えてください
-    API_KEY: 'YOUR_API_KEY_HERE',
-    CLIENT_ID: 'YOUR_CLIENT_ID_HERE.apps.googleusercontent.com',
+    API_KEY: 'AIzaSyC5Y06zUZzRRXgHy1scrCH5Li4qldb0Izo',
+    CLIENT_ID: '335218274143-hn0lfceok6fjtuv8udv0s8jodrs55vnn.apps.googleusercontent.com',
     
     // API Scopes
     SCOPES: [

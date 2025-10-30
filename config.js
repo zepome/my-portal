@@ -16,7 +16,14 @@ const STORAGE_KEYS = {
     authToken: 'myPortalAuthToken'
 };
 
-// 気象庁API エリアコード
+// 気象庁API エンドポイント（完全なURL形式に戻す）
+const WEATHER_API = {
+    shiga: 'https://www.jma.go.jp/bosai/forecast/data/forecast/250000.json',
+    osaka: 'https://www.jma.go.jp/bosai/forecast/data/forecast/270000.json',
+    tokyo: 'https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json'
+};
+
+// 気象庁API エリアコード（互換性のため残す）
 const WEATHER_AREAS = {
     shiga: '250000',
     osaka: '270000',

@@ -44,15 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGmailCount();
     setInterval(updateGmailCount, 300000);
     
-    // Google APIが設定されていれば5秒後に自動認証を試みる
-    if (isGoogleAPIConfigured()) {
-        setTimeout(() => {
-            if (gapiInited && gisInited && !accessToken) {
-                console.log('Attempting automatic authentication...');
-                handleAuthClick();
-            }
-        }, 5000);
-    }
+// Google APIが設定されていれば、ページ読み込み時に認証状態を確認
+if (isGoogleAPIConfigured()) {
+    // 既存のアクセストークンがあるか確認
+    // 新規訪問の場合は、Gmail未読数エリアをクリックで認証を促す
+    document.getElementById('gmailCount')?.addEventListener('click', (e) => {
+        if (!accessToken) {
+            e.preventDefault();
+            handleAuthClick();
+        }
+    });
+}
+
 });
 
 function initializeUI() {

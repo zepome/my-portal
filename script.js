@@ -1017,7 +1017,7 @@ function handleAuthClick() {
     if (accessToken === null) {
         tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
-        tokenClient.requestAccessToken({ prompt: '' });
+        tokenClient.requestAccessToken({ prompt: 'consent' }); // ← ここを 'consent' に変更しました
     }
 }
 
